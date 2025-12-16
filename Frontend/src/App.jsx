@@ -1,4 +1,5 @@
 // Desc: Main entry point for the frontend
+//To run this project use npm run dev
 import { Routes, Route } from 'react-router-dom';
 import './CSS/App.css';
 

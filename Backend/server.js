@@ -1,4 +1,4 @@
-// to run this file use the coomand node server.js in bash console
+// to run this file use the comand "node server.js" in bash console
 
 const express = require("express");
 const cors = require("cors");

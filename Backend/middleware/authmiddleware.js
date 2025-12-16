@@ -1,9 +1,11 @@
+// Desc: Middleware to authenticate JWT tokens in incoming requests
+
 const jwt = require('jsonwebtoken');
 
 exports.authenticateToken = (req, res, next) => {
     const token = req.cookies.token;
 
-    if (!token) {
+    if (!token) {//no token found
         return res.status(401).json({ message: "Access denied. No token provided." });
     }
 

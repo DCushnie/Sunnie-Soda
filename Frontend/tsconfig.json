@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",                     // Output modern JS
+    "module": "nodenext",                     // Use ES modules
+    "jsx": "react-jsx",                     // JSX transform for React 18+
+    "strict": true,                         // Enable strict type checking for TSX files
+    "allowJs": true,                        // Allow .js/.jsx files to exist alongside TSX
+    "checkJs": false,                        // Don't type-check .js/.jsx files (optional)
+    "esModuleInterop": true,                // Makes default imports work better
+    "forceConsistentCasingInFileNames": true, 
+    "skipLibCheck": true,                   // Skip type-checking dependencies
+    "isolatedModules": true,                // Required for Vite
+    "noEmit": true                          // Don't output JS, Vite handles bundling
+  },
+  "include": ["src"],                       // Only type-check files in src
+  "exclude": ["node_modules", "dist"]       // Ignore dependencies and build folder
+}
