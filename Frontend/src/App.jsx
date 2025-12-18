@@ -10,6 +10,8 @@ import SignUp from './pages/SignUp';
 import Login from './pages/login';
 import SingleProducts from './pages/SingleProductPage';
 import Cart from './pages/Cart';
+import { createRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom/client';
 
 function App() {
   
@@ -32,5 +34,7 @@ function App() {
     </>
   )
 }
+
+
 
 export default App
