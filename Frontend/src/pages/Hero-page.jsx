@@ -39,7 +39,7 @@ function HeroPage() {
         <h1 className='text-[26vh] tracking-wide text-center font-bold text-white mt-6'>Live Life on</h1>
         <h1 className='text-[26vh] tracking-wide text-center font-bold text-black mt-12 ml-auto'>The<span className="text-brown">Sunnie</span>Side</h1>
       </div>
-      <div className=' w-full h-[700px] mt-[5%] relative z-30 justify-center place-items-center'>
+      <div className=' w-full h-screen relative z-30 justify-center place-items-center'>
         
         <div  className='w-full h-full  relative'>
           <Canvas camera={{ position: [5, 0, 0], fov: 60 }} style={{width:"100%",height:"100%"}}>
@@ -60,20 +60,23 @@ function HeroPage() {
              {/* Animated cans */}
               <AnimatedCan
                 flavour="strawberry"
-                position={[0, -2, 0]}
-                scale={1.5}
+                position={[2, -1, 0]}
+                scale={0.7}
+                dropDelay={0.2}
               />
 
               <AnimatedCan
                 flavour="watermelon"
-                position={[-1.5, -2.2, 1]}
-                scale={1.2}
+                position={[2, -1.2, 1]}
+                scale={0.7}
+                dropDelay={0.5}
               />
 
               <AnimatedCan
                 flavour="cherry"
-                position={[1.5, -2.2, -1]}
-                scale={1.2}
+                position={[2, -1, -1]}
+                scale={0.7}
+                dropDelay={0.8}
               />
             
           </Suspense>

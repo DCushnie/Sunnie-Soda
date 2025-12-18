@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { forwardRef, useRef, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import gsap from "gsap";
 import * as THREE from "three";
@@ -10,44 +10,45 @@ import { SodaCan } from "../components/sodaCan.js";
  * - Controls idle rotation
  * - Wraps the reusable SodaCan model
  */
-export function AnimatedCan({
-    flavour,
-    position = [0, 0, 0],
-    scale = 1,
-    }: {
-        flavour: "watermelon" | "strawberry" | "cherry";
-        position?: [number, number, number];
+export const AnimatedCan = forwardRef<
+    THREE.Group,
+    {
+        flavour: "watermelon"|"strawberry"|"cherry";
         scale?: number;
-}) {
-  const canRef = useRef<THREE.Group>(null);
+        position: [number, number, number];
+        dropDelay?: number; // delay before drop animation starts
+    }
+    >(({flavour, position, scale = 1, dropDelay = 0}, externalRef) => {
+        const internalRef = useRef<THREE.Group>(null);
+        const canref =
+            (externalRef as React.RefObject<THREE.Group | null>) || internalRef;
 
-  // GSAP entrance animation (runs once on mount)
-  useEffect(() => {
-    if (!canRef.current) return;
+        useEffect(() => {
+            if (!canref.current) return;
 
-    gsap.fromTo(
-      canRef.current.position,
-      { y: position[1] + 5 }, // start above the scene
-      {
-        y: position[1],       // land at final position
-        duration: 1.2,
-        ease: "power3.out",
-      }
-    );
-  }, [position]);
+            gsap.fromTo(
+                canref.current.position,
+                {
+                    y: position[1] + 7, //from here
+                },
+                {
+                    y: position[1],
+                    duration: 2,
+                    ease: "power3.out",
+                    delay: dropDelay,
+                }
+            );
+        }, [position, dropDelay]);
 
-  // Subtle idle rotation (runs every frame)
-  useFrame((_, delta) => {
-    if (!canRef.current) return;
-    canRef.current.rotation.y += delta * 0.4;
-  });
 
-  return (
-    <SodaCan
-      ref={canRef}
-      flavour={flavour}
-      position={position}
-      scale={scale}
-    />
-  );
-}
+        return (
+            <SodaCan
+                ref={canref}
+                flavour={flavour}
+                position={[position[0], position[1] + 5, position[2]]}
+                scale={scale}
+            />
+        );
+    });
+
+AnimatedCan.displayName = "AnimatedCan";
