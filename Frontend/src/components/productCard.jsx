@@ -22,8 +22,13 @@ const navigate = useNavigate();
 
   async function HandleCartClick() {
     
-    // Check what user is logged in
+
+      // Check what user is logged in
     const user = await api.get("/profiles", { withCredentials: true })
+    
+
+    
+    
 
     if(!user){
       alert("You need to be logged in to add to cart!")
