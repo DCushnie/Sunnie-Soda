@@ -19,7 +19,8 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN, // Allow specific origin
+    origin: [process.env.CORS_ORIGIN,
+      process.env.CORS_FRONTEND_URL], // Allow specific origin
     methods: "GET,POST",
     credentials: true, // Allow cookies to be sent with requests
   })
