@@ -22,7 +22,7 @@ app.use(
     Origin: [
       process.env.CORS_ORIGIN,
       process.env.CORS_FRONTEND_URL,
-      "https://sunnie-soda-production.up.railway.app/api"
+      process.env.CORS_ORGIN_TRIAL
     ], // Allow specific origin
     methods: "GET,POST",
     credentials: true, // Allow cookies to be sent with requests
