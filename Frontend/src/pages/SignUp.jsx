@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import api from '../pages/Api.js'; // Import the API instance
 
 function SignUp() {
   const [firstname, setFirstname] = useState(''); // these states will hold the values of the input fields
@@ -18,7 +19,7 @@ function SignUp() {
 
     try {
       // Make a POST request to the /api/users endpoint
-      const response = await axios.post('http://localhost:5000/api/users', {
+      const response = await api.post('/api/users', {
         firstname,
         lastname,
         email,

@@ -122,36 +122,6 @@ app.get("/api/cart/:userId", async (req, res) => {
 app.get("/health", (req, res) => res.json({ ok: true }));
 
 
-app.post("/api/cart", async (req, res) => {
-    try{
-        const {userId, productId, quantity} = req.body;
-
-        const existingItem = await CartItem.findOne({
-            where: {
-                user_id: userId,
-                product_id: productId
-            }
-        });
-
-        if(existingItem){
-            await existingItem.update({
-                quantity: existingItem.quantity + quantity
-            });
-            return res.json({message: "quantity updated"});
-        }else{
-            await CartItem.create({
-                user_id: userId,
-                product_id: productId,
-                quantity
-            });
-            return res.json({message: "Item added to cart"});
-        }
-
-    }catch(error){
-        res.status(500).send({error: "Server error", details: error.message});
-    }
-});
-
 
 
 //for hashing the password
