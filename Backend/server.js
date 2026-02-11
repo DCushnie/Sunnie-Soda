@@ -19,10 +19,10 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(
   cors({
-    origin: [
+    Origin: [
       process.env.CORS_ORIGIN,
       process.env.CORS_FRONTEND_URL,
-      "https://sunnie-soda-production.up.railway.app"
+      "https://sunnie-soda-production.up.railway.app/api"
     ], // Allow specific origin
     methods: "GET,POST",
     credentials: true, // Allow cookies to be sent with requests
@@ -52,6 +52,7 @@ app.use("/cart", protectedRoutes);
 app.get("/api/products", async (req, res) => {
   try {
     const products = await Product.findAll();
+    res.header('Access-Control-Allow-Origin',)
     res.json(products);
   } catch (error) {
     console.log(error);
