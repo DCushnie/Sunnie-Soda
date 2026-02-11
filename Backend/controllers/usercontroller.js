@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const {User} = require('../Models/User');
+const {User} = require('../Models');
 
 
 exports.GetUsers = async (req, res) => {
