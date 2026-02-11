@@ -201,6 +201,6 @@ app.post("/api/users", async (req, res) => {
 
 // see what port the server is running on
 
-app.listen(port, () => {
+app.listen(port || 3000, () => {
   console.log(`Server is running on port ${port}`);
 });
