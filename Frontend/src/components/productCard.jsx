@@ -34,7 +34,7 @@ const navigate = useNavigate();
       alert("You need to be logged in to add to cart!")
     }
 
-      console.log(user.data.user.id);
+      //console.log(user.data.user.id);
 
     const cartItem = {
       userId: user.data.user.id,
