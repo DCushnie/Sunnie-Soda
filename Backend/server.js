@@ -38,11 +38,11 @@ app.use("/cart", protectedRoutes);
 
 
 
-sequelize.sync({ alter: true }).then(() => {
-  console.log("Database & tables created!");
-}).catch(error => {
-  console.error('Unable to connect to the database:', error);
-});
+// sequelize.sync({ alter: true }).then(() => {
+//   console.log("Database & tables created!");
+// }).catch(error => {
+//   console.error('Unable to connect to the database:', error);
+// });
 
 
 
@@ -204,3 +204,13 @@ app.post("/api/users", async (req, res) => {
 app.listen(port || 3000, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+sequelize
+  .authenticate()
+  .then(() => console.log("DB connected"))
+  .then(() => sequelize.sync()) // IMPORTANT: remove alter:true for production
+  .then(() => console.log("Database synced"))
+  .catch((error) => {
+    console.error("DB startup error:", error);
+    // do NOT process.exit() for now; keep server alive so /health works
+  });
