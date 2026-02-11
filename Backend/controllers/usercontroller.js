@@ -26,7 +26,7 @@ const hashPassword = async (password) => {
 
 exports.CreateUser = async (req, res) =>{
     try {
-        const { firstname, lastname, email, user_password } = req.body;
+        const { firstname, lastname, email, user_password, } = req.body;
     
         // Validate required fields
         if (!firstname || !user_password || !email) {
@@ -35,6 +35,7 @@ exports.CreateUser = async (req, res) =>{
             .json({ error: "Firstname and password are required." });
         }
     
+        console.log("user is:" ,User)
         // Check if user already exists
         const existingUser = await User.findOne({ where: { email: email } });
         if (existingUser) {
