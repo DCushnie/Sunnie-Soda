@@ -24,14 +24,14 @@ const allowedOrigin = [
     ].filter(Boolean);
 app.use(
   cors({
-    Origin:(origin, callback) => {
+    Origin: (origin, callback) => {
       // allow non-browser tools (no Origin header)
       if (!origin) return callback(null, true);
 
-      if (allowedOrigins.includes(origin)) return callback(null, true);
+      if (allowedOrigin.includes(origin)) return callback(null, true);
 
       return callback(new Error("Not allowed by CORS"));
-    } , // Allow specific origin
+    }, // Allow specific origin
     methods: ["GET","POST"],
     credentials: true, // Allow cookies to be sent with requests
     allowedHeaders: ["Content-Type", "Authorization", "x-api-key"],
