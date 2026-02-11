@@ -21,7 +21,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    Origin:process.env.CORS_FRONTEND_URL, // Allow specific origin
+    origin: process.env.CORS_FRONTEND_URL, // Allow specific origin
     methods: ["GET","POST"],
     credentials: true, // Allow cookies to be sent with requests
     allowedHeaders: ["Content-Type", "Authorization", "x-api-key"],
