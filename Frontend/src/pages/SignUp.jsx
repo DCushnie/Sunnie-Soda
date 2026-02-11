@@ -19,7 +19,7 @@ function SignUp() {
 
     try {
       // Make a POST request to the /api/users endpoint
-      const response = await api.post('/api/users', {
+      const response = await api.post('/users', {
         firstname,
         lastname,
         email,
