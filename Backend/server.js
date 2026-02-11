@@ -12,14 +12,14 @@ const cookieParser = require("cookie-parser");
 require('dotenv').config();
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT;
 
 app.use(cookieParser());
 
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173", // Allow specific origin
+    origin: process.env.CORS_ORIGIN, // Allow specific origin
     methods: "GET,POST",
     credentials: true, // Allow cookies to be sent with requests
   })
@@ -32,78 +32,7 @@ app.use("/api", protectedRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/cart", protectedRoutes);
 
-// 
 
-//const sequelize = new Sequelize(`mysql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:3306/${process.env.DB_NAME}`);
-
-// sequelize.authenticate()
-// .then(() => {
-//     console.log('Connection has been established successfully.');
-// })
-// .catch(error => {
-//     console.error('Unable to connect to the database:', error);
-// });
-
-// Model for the tables in the database
-
-// const Product = sequelize.define('Product', {
-//     productId: {
-//         type: DataTypes.INTEGER,
-//         primaryKey: true,
-//         autoIncrement: true
-//     },
-//     productName: {
-//         type: DataTypes.STRING,
-//         allowNull: false
-//     },
-//     price: {
-//         type: DataTypes.DECIMAL,
-//         allowNull: false
-//     },
-//     image: {
-//         type: DataTypes.STRING,
-//         allowNull: false
-//     },
-//     amount: {
-//         type: DataTypes.INTEGER,
-//         allowNull: false
-//     },
-//     prodDescr: {
-//         type: DataTypes.STRING,
-//         allowNull: false
-//     },
-// },  {
-//         timestamps: false,
-
-// });
-
-// const User = sequelize.define('User', {
-//     id: {
-//         type: DataTypes.INTEGER,
-//         primaryKey: true,
-//         autoIncrement: true
-//     },
-//     firstname: {
-//         type: DataTypes.STRING,
-//         allowNull: false
-//     },
-//     lastname: {
-//         type: DataTypes.STRING,
-//         allowNull: true
-//     }
-//     ,
-//     email: {
-//         type: DataTypes.STRING,
-//         allowNull: true
-//     },
-//     user_password: {
-//         type: DataTypes.STRING,
-//         allowNull: false
-//     },
-
-// }, {
-//     timestamps: false
-// });
 
 sequelize.sync({ alter: true }).then(() => {
   console.log("Database & tables created!");
