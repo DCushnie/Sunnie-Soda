@@ -25,6 +25,10 @@ const navigate = useNavigate();
     // Check what user is logged in
     const user = await api.get("/profiles", { withCredentials: true })
 
+    if(!user){
+      alert("You need to be logged in to add to cart!")
+    }
+
       console.log(user.data.user.id);
 
     const cartItem = {
@@ -32,7 +36,7 @@ const navigate = useNavigate();
       productId: product.productId,
       quantity: 1,
     };
-    // Assuming you have a function to add the item to the cart
+    
     
     await api.post("/cart", cartItem, { withCredentials: true })
       .then((response) => {
