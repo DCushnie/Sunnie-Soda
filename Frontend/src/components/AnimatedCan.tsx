@@ -7,7 +7,6 @@ import { SodaCan } from "../components/sodaCan.js";
 /**
  * AnimatedCan
  * - Controls GSAP entry animation
- * - Controls idle rotation
  * - Wraps the reusable SodaCan model
  */
 export const AnimatedCan = forwardRef<
@@ -45,7 +44,7 @@ export const AnimatedCan = forwardRef<
             <SodaCan
                 ref={canref}
                 flavour={flavour}
-                position={[position[0], position[1] + 5, position[2]]}
+                position={[position[0], position[1] + 5, position[2]]} //forces the can to start above the ground for drop animation to prevent the can being rendered below ground
                 scale={scale}
             />
         );

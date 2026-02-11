@@ -17,11 +17,6 @@ function Login() {
             
             const response = await api.post('/auth/login', {email, password});
 
-            // const response = await axios.post('http://localhost:5000/api/auth/login', {
-            //     email,
-            //     password,
-            // }, { withCredentials: true }); // Include credentials in the request
-            //console.log(response.data);
 
             if(response.status == 401) {
                 alert("Invalid email or password");
