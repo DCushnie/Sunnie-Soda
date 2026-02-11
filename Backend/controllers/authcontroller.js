@@ -25,8 +25,9 @@ exports.login = async (req, res) => {
 
         if (user && isMatch) {
             const jwtSecret = process.env.JWT_SECRET || 'default_secret_key';
-            const token = jwt.sign({ id: user.id, firstname: user.firstname, lastname: user.lastname, email: user.email}, jwtSecret, { expiresIn: '5h' });
-            return res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'Strict' })
+            const token = jwt.sign({ id: user.id, firstname: user.firstname, lastname: user.lastname, email: user.email, role: user.role}, jwtSecret, { expiresIn: '5h' });
+            const isProd = process.env.NODE_ENV === 'production'
+            return res.cookie("token", token, { httpOnly: true, secure: isProd, sameSite: isProd ? "none" :"lax" })
                 .status(200)
                 .json({ 
                     message: 'Login successful', 
@@ -34,7 +35,8 @@ exports.login = async (req, res) => {
                         id: user.id, 
                         firstname: user.firstname,
                         lastname: user.lastname, 
-                        email: user.email 
+                        email: user.email,
+                        role: user.role,
                     } 
                 });
         }
