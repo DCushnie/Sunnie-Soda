@@ -4,8 +4,8 @@ const {GetUsers, CreateUser} = require('../controllers/usercontroller');
 
 const router = express.Router();
 
-router.get("/api/users", requireAuth, requireAdmin, GetUsers);
-router.post("/api/users", requireAuth, requireAdmin, CreateUser)
+router.get("/users", requireAuth, requireAdmin, GetUsers);
+router.post("/users", requireAuth, requireAdmin, CreateUser)
 
 router.post
 
