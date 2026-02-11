@@ -1,22 +1,23 @@
 import ProductCard from "../components/productCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import api from "./Api.js";
 
 
 function ShowProducts() {
   const [searchProductsQuery, setSearchProductsQuery] = useState(""); //this is the search query that will be used to search for products
   const [myproducts, setmyproducts] = useState([]); //this is the state that will hold the products
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/products") //this sends a get request to the backend to get the products
+  useEffect (() => {
+    api
+      .get("/products")
 
-      .then((response) => setmyproducts(response.data)) //this sets the products to the data gotten from the backend
+      .then((response) => setmyproducts(response.data))
+      .catch((error) => {
+        console.error("There was an error fetching all the products:", error)
+      })
+  }, [])
 
-      .catch((error) =>
-        console.log("There was an error getting products: ", error)
-      ); //this logs the error if there is any
-  }, []); //this makes sure that the products are gotten only once when the page is loaded
 
   const handleSearch = (e) => {
     e.preventDefault(); //prevents the page from refreshing when the form is submitted
