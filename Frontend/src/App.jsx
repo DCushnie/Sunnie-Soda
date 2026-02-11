@@ -7,7 +7,7 @@ import Profile from './pages/sample';
 import ShowProducts from './pages/Product';
 import HeroPage from './pages/Hero-page';
 import SignUp from './pages/SignUp';
-import Login from './pages/login';
+import Login from './pages/Login';
 import SingleProducts from './pages/SingleProductPage';
 import Cart from './pages/Cart';
 import { createRoot } from 'react-dom/client';
