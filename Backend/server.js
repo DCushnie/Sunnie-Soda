@@ -52,7 +52,7 @@ app.use("/cart", protectedRoutes);
 app.get("/api/products", async (req, res) => {
   try {
     const products = await Product.findAll();
-    res.header('Access-Control-Allow-Origin',)
+    
     res.json(products);
   } catch (error) {
     console.log(error);
