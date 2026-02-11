@@ -78,6 +78,8 @@ app.get("/api/products/:productId", async (req, res) => {
   }
 });
 
+
+
 // app.get("/api/users", async (req, res) => {
 //   try {
 //     const users = await User.findAll();
