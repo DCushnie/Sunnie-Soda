@@ -18,20 +18,10 @@ app.use(cookieParser());
 
 app.use(express.json());
 
-const allowedOrigin = [
-      process.env.CORS_ORIGIN,
-      process.env.CORS_FRONTEND_URL,
-    ].filter(Boolean);
+
 app.use(
   cors({
-    Origin: (origin, callback) => {
-      // allow non-browser tools (no Origin header)
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigin.includes(origin)) return callback(null, true);
-
-      return callback(new Error("Not allowed by CORS"));
-    }, // Allow specific origin
+    Origin:process.env.CORS_FRONTEND_URL, // Allow specific origin
     methods: ["GET","POST"],
     credentials: true, // Allow cookies to be sent with requests
     allowedHeaders: ["Content-Type", "Authorization", "x-api-key"],
