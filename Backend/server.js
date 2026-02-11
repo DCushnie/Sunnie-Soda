@@ -22,17 +22,13 @@ app.use(
     Origin: [
       process.env.CORS_ORIGIN,
       process.env.CORS_FRONTEND_URL,
-      process.env.CORS_ORGIN_TRIAL
-    ], // Allow specific origin
+    ].filter(Boolean), // Allow specific origin
     methods: "GET,POST",
     credentials: true, // Allow cookies to be sent with requests
   })
 );
 
-app.use((req, res, next) => {
-  console.log("Origin:", req.headers.origin);
-  next();
-});
+
 
 
 
