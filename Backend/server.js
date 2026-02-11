@@ -116,6 +116,9 @@ app.get("/api/cart/:userId", async (req, res) => {
 // ************** post requests **************
 //********************************************
 
+app.get("/health", (req, res) => res.json({ ok: true }));
+
+
 app.post("/api/cart", async (req, res) => {
     try{
         const {userId, productId, quantity} = req.body;
