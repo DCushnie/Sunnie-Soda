@@ -42,11 +42,11 @@ function HeroPage() {
 
           <Suspense fallback={null}> {/*suspense is used to delay the rendering of the scene until all assets are loaded*/}
             {/*The environment and lighting*/}
-            <Environment files="/Images/HDR/charolettenbrunn_park_4k.hdr" background={false} />
+            <Environment files="/Images/HDR/lobby.hdr" background={false} />
 
-            <ambientLight intensity={2}/>
+            <ambientLight intensity={1.7}/>
             <directionalLight
-              position={[5, 1, 5]}
+              position={[5, 5, 5]}
               intensity={2}
               />
         

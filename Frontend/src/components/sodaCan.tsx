@@ -1,14 +1,14 @@
 "use client"
 
 import { useFrame } from "@react-three/fiber";
-import { Environment, useGLTF, useTexture } from "@react-three/drei";
+import { Environment, Merged, useGLTF, useTexture } from "@react-three/drei";
 import React, { forwardRef, useMemo, useRef } from "react";
 import * as THREE from "three";
 
 const metalMaterial = new THREE.MeshPhysicalMaterial({
     color: "#bbbbbb",
     metalness: 1,
-    roughness: 0.4,
+    roughness: 0.3,
     clearcoat: 1,
     clearcoatRoughness: 0.4,
     reflectivity: 0.5,
@@ -16,7 +16,7 @@ const metalMaterial = new THREE.MeshPhysicalMaterial({
 
 const flavourTextures = {
     watermelon: "/Images/watermelon.png",
-    strawberry: "/Images/strawberry.png",
+    strawberry: "/Images/strawberryLime2.png",
     cherry: "/Images/cherry.png",
     
 };
@@ -30,6 +30,21 @@ export type SodaCanProps =  {
 export const SodaCan = forwardRef<THREE.Group, SodaCanProps>(
     ({ flavour = "watermelon", scale = 1, ...props }, ref) => {
         const label = useTexture(flavourTextures[flavour]);
+
+        const droplets = useTexture('/Images/dropletmap.jpg')
+        //const dropletroughness = useTexture('/Images/Leaking016B_2K-JPG_Roughness.jpg')
+
+        droplets.wrapS = droplets.wrapT = THREE.RepeatWrapping;
+        droplets.repeat.set(1, 1)
+        droplets.colorSpace = THREE.NoColorSpace
+        //dropletroughness.colorSpace = THREE.NoColorSpace
+
+        label.wrapS = THREE.RepeatWrapping;
+        label.wrapT = THREE.ClampToEdgeWrapping;
+        label.repeat.set(1,1);
+        label.offset.set(0,0.055);
+        label.flipY = true; //fix any invertations
+        label.colorSpace = THREE.SRGBColorSpace //nicer colours
     
     const profile = useMemo(() => {
         const start = new THREE.Vector3(0.7, 0, 0);   // bottom radius
@@ -57,6 +72,36 @@ export const SodaCan = forwardRef<THREE.Group, SodaCanProps>(
         return points.map(p => new THREE.Vector2(p.x, p.y));
     },[]);
 
+    const fulltopprofile = useMemo(() => {
+        const bodystart = new THREE.Vector3(0.7, 0, 0);   // bottom radius
+        const bodycontrol1 = new THREE.Vector3(0.75, 0.05, 0);
+        const bodycontrol2 = new THREE.Vector3(0.75, 1.95, 0);
+        const bodyend = new THREE.Vector3(0.7, 2, 0);
+
+        const bodycurve = new THREE.CubicBezierCurve3(bodystart, bodycontrol1, bodycontrol2, bodyend);
+
+        const bodypoints = bodycurve.getPoints(50);
+
+        const topBendstart = new THREE.Vector3(0.7069, 0, 0);   // bottom radius
+        const topBendcontrol1 = new THREE.Vector3(0.7, 0.05, 0);
+        const topBendcontrol2 = new THREE.Vector3(0.4, 0.5, 0);
+        const topBendend = new THREE.Vector3(0.6, 0.2, 0);
+
+        const topBendcurve = new THREE.CubicBezierCurve3(topBendstart, topBendcontrol1, topBendcontrol2, topBendend);
+
+        const topBendpointsraw = topBendcurve.getPoints(50);
+
+        const topBendpoints = topBendpointsraw.map(p =>
+            new THREE.Vector2(p.x,p.y +2) //this moves the top part by the can height
+        );
+
+        const bodypoints2D = bodypoints.map(p => 
+            new THREE.Vector2(p.x,p.y)
+        );
+
+        return [...bodypoints2D, ...topBendpoints];
+    }, []);
+
     const canlipprofile = useMemo(() => {
         const start = new THREE.Vector3(0.58, 0, 0);   // bottom radius
         const control1 = new THREE.Vector3(0.54, 0.1, 0);
@@ -83,12 +128,42 @@ export const SodaCan = forwardRef<THREE.Group, SodaCanProps>(
         return points.map(p => new THREE.Vector2(p.x, p.y));
     },[]);
 
+    const geometry = useMemo(() => {
+        const geo = new THREE.LatheGeometry(fulltopprofile, 128);
+
+        geo.computeBoundingBox();
+        geo.computeVertexNormals();
+
+        return geo;
+    }, [fulltopprofile]);
+
+    const uv = geometry.attributes.uv;
+    const position = geometry.attributes.position;
+
+    const box = geometry.boundingBox;
+    const height = box.max.y - box.min.y;
+
+    for (let i = 0; i < position.count; i++) {
+        const x = position.getX(i);
+        const y = position.getY(i);
+        const z = position.getZ(i);
+
+        const angle = Math.atan2(z, -x);
+        const u = (angle + Math.PI) / (Math.PI * 2);
+        const v = (y - box.min.y) / height;
+
+        uv.setXY(i, u, v);
+    }
+
+    uv.needsUpdate = true;
+
+
     
 
         return (
             <group ref={ref} scale={scale} {...props}>
     
-                <mesh position={[0, 2.338, 0]} material={metalMaterial} rotation={[Math.PI / 2, 0, 0]}>
+                {/* <mesh position={[0, 2.338, 0]} material={metalMaterial} rotation={[Math.PI / 2, 0, 0]}>
                     <torusGeometry args={[0.12, 0.03, 128, 128, 3]} />
                 </mesh>
 
@@ -102,7 +177,7 @@ export const SodaCan = forwardRef<THREE.Group, SodaCanProps>(
 
                 <mesh position={[0, 2.33, -0.12]} material={metalMaterial} rotation={[-Math.PI / 2, 0, 0]}>
                     <torusGeometry args={[0.112, 0.03, 128, 128, 3]} />
-                </mesh>
+                </mesh> */}
 
                 {/* <mesh position={[0, 2.34, -0.05]} material={metalMaterial} rotation={[Math.PI / 2, 0, 1.5]}>
                     <boxGeometry args={[0.15, 0.23, 0.03]} />
@@ -122,16 +197,40 @@ export const SodaCan = forwardRef<THREE.Group, SodaCanProps>(
                     <latheGeometry args={[canlipprofile, 128]} /> 
                 </mesh>
 
-                {/*the bent in part of the can */}
+                <mesh rotation={[0,-1, 0]}>
+                    <primitive object={geometry} attach="geometry" />
+                    <meshPhysicalMaterial
+                        map={label}
+                        metalness={0.7}
+                        roughness={0.3}
+                        roughnessMap={droplets}
+                        clearcoat={0.3}
+                        clearcoatRoughness={0.02}
+                        normalMap={droplets}
+                        normalScale={[4, 2]}
+                        envMapIntensity={1.8}
+                    />
+                </mesh>
+
+                {/* the bent in part of the can
                 <mesh material={metalMaterial} position={[0, 1.99, 0]}>
                     <latheGeometry args={[topprofile, 128]} /> 
                 </mesh>
 
                 {/* The can Body */}
 
-                <mesh material={metalMaterial} >
-                    <latheGeometry args={[profile, 128]} />  {/* Revolve profile around Y-axis */}
-                </mesh>
+                {/* <mesh material={metalMaterial} rotation={[0, 0.5, 0]}> */}
+                    {/* <latheGeometry args={[profile, 128]} />  Revolve profile around Y-axis */}
+                    {/* <meshStandardMaterial
+                        map={label}
+                        metalness={0.4}
+                        roughness={0.24}
+                        
+                    />
+                </mesh>  */}
+
+
+                
 
                 {/*The bottom of the can */}
                 <mesh material={metalMaterial} position={[0, 0.05, 0]} rotation={[Math.PI, 0, 0]}>
@@ -151,11 +250,11 @@ export const SodaCan = forwardRef<THREE.Group, SodaCanProps>(
                 </mesh>
 
 
-                {/*Making the label */}
-                <mesh position={[0, 1, 0]}>
-                    <cylinderGeometry args={[0.735, 0.745, 1.8, 128]} />
-                    <meshStandardMaterial map={label}  roughness={0.3}/>
-                </mesh>
+                {/* Making the label */}
+                {/* <mesh position={[0, 1, 0]}>
+                    <cylinderGeometry args={[0.736, 0.740, 1.955, 128, 1, true]} />
+                    <meshStandardMaterial map={label}  roughness={0.5}/>
+                </mesh> */}
                             
 
     {/* syntax is: radius, tube, radial segments, tubular segments */}
@@ -175,7 +274,8 @@ export const SodaCan = forwardRef<THREE.Group, SodaCanProps>(
                     <meshStandardMaterial color="#ccc" metalness={1} roughness={0.2} />
                 </mesh> */}
                 
-                
+
+
                     
                 
             </group>
