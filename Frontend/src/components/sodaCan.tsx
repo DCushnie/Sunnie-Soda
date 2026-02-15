@@ -208,7 +208,7 @@ export const SodaCan = forwardRef<THREE.Group, SodaCanProps>(
                         clearcoatRoughness={0.02}
                         normalMap={droplets}
                         normalScale={[4, 2]}
-                        envMapIntensity={1.8}
+                        envMapIntensity={1}
                     />
                 </mesh>
 
