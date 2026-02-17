@@ -12,6 +12,7 @@ import labelimage from "/Images/watermelon.png";
 import { Environment } from '@react-three/drei';
 import Navbar from '../components/Navbar.jsx';
 import OrbitControlsWithPointerEvents from '../components/OrbitControls.jsx';
+import AnimatedBackground from '../components/HeroBackground.jsx'
 
 
 // function Box() {
@@ -33,7 +34,8 @@ function HeroPage() {
   return (
     <>
 
-    <section className='relative top-0 left-0 w-full h-screen bg-brown '>
+    <section className='relative top-0 left-0 w-full h-screen'>
+      <AnimatedBackground />
        <Navbar />
        <div className=' w-full h-screen relative z-30 justify-center place-items-center '>
         
@@ -87,7 +89,7 @@ function HeroPage() {
       </div>
 
       <div className='absolute top-0 left-0 w-full  justify-center items-center z-2 pointer-events-none'>
-        <h1 className='text-[26vh] tracking-wide text-center font-bold text-white mt-6'>Live Life on</h1>
+        <h1 className='text-[26vh] tracking-wide text-center font-bold text-black mt-6'>Live Life on</h1>
         <h1 className='text-[26vh] tracking-wide text-center font-bold text-black mt-12 ml-auto'>The<span className="text-brown">Sunnie</span>Side</h1>
       </div>
       

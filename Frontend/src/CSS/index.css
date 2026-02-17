@@ -8,4 +8,38 @@
     --color-brown: #6f4f28;
     --color-accentYellow: #D4af37;
     --color-accentBlue: #A9cbb7;
-} 
+}
+
+@keyframes floatSlow {
+  0%,100% { transform: translate(0px, 0px); }
+  50% { transform: translate(100vw, -20px); }
+}
+
+@keyframes floatMedium {
+  0%, 100% { transform: translate(0px, 0px); }
+  50% { transform: translate(-80%, 40px); }
+}
+
+@keyframes floatFast {
+  0%, 100% { transform: translate(0px, 0px); }
+  50% { transform: translate(-90vw, 50px); }
+}
+
+
+@keyframes wander {
+  0% {
+    transform: translate(-20%, -20%) scale(1);
+  }
+  25% {
+    transform: translate(40vw, -10vh) scale(1.1);
+  }
+  50% {
+    transform: translate(60vw, 40vh) scale(0.95);
+  }
+  75% {
+    transform: translate(-10vw, 50vh) scale(1.05);
+  }
+  100% {
+    transform: translate(-20%, -20%) scale(1);
+  }
+}
