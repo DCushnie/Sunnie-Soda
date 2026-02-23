@@ -11,9 +11,18 @@ const Cart = () =>{
 
                 const user = await api.get("/profiles", { withCredentials: true })
 
+                    if(!user){
+                        alert("You need to be logged in to add to cart!")
+                        }
+
+
                     console.log(user.data.user.id);
                 const res = await api.get(`/cart/${user.data.user.id}`, {
                     withCredentials: true, // Include credentials in the request
+                })
+                .catch((error) => {
+                    console.error("Error adding item to cart:", error);
+                    alert("Failed to add item to cart.");
                 });
                 console.log(res.data);
                 setuserCart(res.data);

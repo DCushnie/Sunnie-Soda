@@ -25,10 +25,11 @@ export type SodaCanProps =  {
     flavour?: keyof typeof flavourTextures; // default is watermelon
     scale?: number;
     position?: [number, number, number];
+    rotation?:[number,number,number];
 };
 
 export const SodaCan = forwardRef<THREE.Group, SodaCanProps>(
-    ({ flavour = "watermelon", scale = 1, ...props }, ref) => {
+    ({ flavour = "watermelon", scale = 1, rotation=[0,0,0], ...props }, ref) => {
         const label = useTexture(flavourTextures[flavour]);
 
         const droplets = useTexture('/Images/dropletmap.jpg')
@@ -161,30 +162,9 @@ export const SodaCan = forwardRef<THREE.Group, SodaCanProps>(
     
 
         return (
-            <group ref={ref} scale={scale} {...props}>
+            <group ref={ref} scale={scale} rotation={rotation} {...props}>
     
-                {/* <mesh position={[0, 2.338, 0]} material={metalMaterial} rotation={[Math.PI / 2, 0, 0]}>
-                    <torusGeometry args={[0.12, 0.03, 128, 128, 3]} />
-                </mesh>
-
-                <mesh position={[-0.113, 2.333, -0.05]} material={metalMaterial} rotation={[1.5, 0, 0.05]}>
-                    <cylinderGeometry args={[0.03, 0.03, 0.18, 128]} />
-                </mesh>
-
-                <mesh position={[0.113, 2.333, -0.05]} material={metalMaterial} rotation={[1.5, 0, -0.05]}>
-                    <cylinderGeometry args={[0.03, 0.03, 0.18, 128]} />
-                </mesh>
-
-                <mesh position={[0, 2.33, -0.12]} material={metalMaterial} rotation={[-Math.PI / 2, 0, 0]}>
-                    <torusGeometry args={[0.112, 0.03, 128, 128, 3]} />
-                </mesh> */}
-
-                {/* <mesh position={[0, 2.34, -0.05]} material={metalMaterial} rotation={[Math.PI / 2, 0, 1.5]}>
-                    <boxGeometry args={[0.15, 0.23, 0.03]} />
-                </mesh> */}
-
-
-
+ 
                 {/*closing the top of the can */}
 
                 <mesh material={metalMaterial} position={[0, 2.3, 0]}>
@@ -193,7 +173,7 @@ export const SodaCan = forwardRef<THREE.Group, SodaCanProps>(
                 
             {/*The lip part of the can */}
 
-                <mesh material={metalMaterial} position={[0, 2.22, 0]}>
+                <mesh material={metalMaterial} position={[0, 2.22, 0]} >
                     <latheGeometry args={[canlipprofile, 128]} /> 
                 </mesh>
 
@@ -211,26 +191,6 @@ export const SodaCan = forwardRef<THREE.Group, SodaCanProps>(
                         envMapIntensity={1}
                     />
                 </mesh>
-
-                {/* the bent in part of the can
-                <mesh material={metalMaterial} position={[0, 1.99, 0]}>
-                    <latheGeometry args={[topprofile, 128]} /> 
-                </mesh>
-
-                {/* The can Body */}
-
-                {/* <mesh material={metalMaterial} rotation={[0, 0.5, 0]}> */}
-                    {/* <latheGeometry args={[profile, 128]} />  Revolve profile around Y-axis */}
-                    {/* <meshStandardMaterial
-                        map={label}
-                        metalness={0.4}
-                        roughness={0.24}
-                        
-                    />
-                </mesh>  */}
-
-
-                
 
                 {/*The bottom of the can */}
                 <mesh material={metalMaterial} position={[0, 0.05, 0]} rotation={[Math.PI, 0, 0]}>
