@@ -5,7 +5,7 @@ import { useGSAP } from '@gsap/react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 //import { DragControls, OrbitControls } from '@react-three/drei';
-import useWindowDimensions from "../components/windowdimension.jsx";
+import useWindowDimensions from '../components/windowdimension.jsx';
 import { AnimatedCan } from '../components/AnimatedCan.js';
 import { DirectionalLight } from 'three';
 import { Suspense } from 'react';
