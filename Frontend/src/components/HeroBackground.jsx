@@ -1,6 +1,6 @@
 function AnimatedBackground() {
   return (
-    <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+    <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none shrink">
       
       {/* Purple Blob */}
       <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] 

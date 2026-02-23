@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+
 import axios from "axios";
 import api from '../pages/Api.js'; // Import the API instance
 
@@ -98,8 +99,11 @@ function SignUp() {
               value={user_password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full rounded-md border border-gray-200 px-3 py-2 focus:outline-none focus:border-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
-
+              
             />
+
+            <button className="size-4"/>
+            
            </div>
 
            <div className="flex items-center justify-between mb-6">
