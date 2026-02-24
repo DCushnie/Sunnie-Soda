@@ -5,6 +5,7 @@ import { useGSAP } from '@gsap/react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 //import { DragControls, OrbitControls } from '@react-three/drei';
+import useWindowDimensions from '../components/windowdimension.jsx';
 import { AnimatedCan } from '../components/AnimatedCan.js';
 import { DirectionalLight } from 'three';
 import { Suspense } from 'react';
@@ -12,7 +13,8 @@ import labelimage from "/Images/watermelon.png";
 import { Environment } from '@react-three/drei';
 import Navbar from '../components/Navbar.jsx';
 import OrbitControlsWithPointerEvents from '../components/OrbitControls.jsx';
-import AnimatedBackground from '../components/HeroBackground.jsx'
+import AnimatedBackground from '../components/HeroBackground.jsx';
+import Scene from '../components/Scene.jsx';
 
 
 function ResponsiveCamera() { //this changes the can sizing depending on the screen
@@ -21,55 +23,19 @@ function ResponsiveCamera() { //this changes the can sizing depending on the scr
   useEffect(() => {// this will run everytime to size of the screen changes
     const isSmall = size.width < 640;
     const isMedium = size.width <= 1024;
-    camera.fov = isSmall ? 75 : isMedium ? 67 : 60;
+    camera.fov = isSmall ? 60 : isMedium ? 55 : 35;
     // camera.position.set(isSmall ? 6.5 : isMedium ? 6 : 5, isSmall ? -1 : 0, 0);
     camera.position.set(0, isSmall ? -1 : 0, isSmall ? 6.5 : isMedium ? 6 : 5)
+    camera.lookAt(0, 0, 0);
     camera.updateProjectionMatrix();
   }, [size.width, camera]);
 
   return null;
 }
 
-const useWindowDimensions = () => {
-  const [dimensions, setDimensions] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
-
-  useEffect(() => {
-    const handleResize = () => {
-      setDimensions({ width: window.innerWidth, height: window.innerHeight });
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  return dimensions;
-};
-
-const responsiveDrop = () => {
-  const { camera, size } = useThree();
-
-  useEffect(() => {
-    const cameraDistance = camera.position.z;
-    const Fov = (camera.fov * Math.PI) / 180;
-    const visibleHeight = 2 * Math.tan(Fov / 2) * distance;
-  },[]);
-  
-
-  return visibleHeight
-}
 
 
 
-// function Box() {
-//   return (
-//     <mesh>
-//       <boxGeometry args={[1, 1, 1]} />
-//       <meshStandardMaterial color="hotpink" />
-//     </mesh>
-//   );
-// }
 gsap.registerPlugin(useGSAP); //registers the GSAP plugin
 
 
@@ -77,9 +43,33 @@ gsap.registerPlugin(useGSAP); //registers the GSAP plugin
 
 
 function HeroPage() {
-  visibleHeight = responsiveDrop();
 
-  const drop = -visibleHeight * 0.3;
+  const dimensions = useWindowDimensions();
+  const isSmall = dimensions.width < 640; 
+  const heroPageTextRef = useRef(null);
+  const sideHeroPageTextref = useRef(null);
+  const [baselineY, setBaselineY] = useState(0);
+
+  useEffect(() => {
+    if(!heroPageTextRef.current) return;
+
+    const updatebaseline = () =>{
+      if (isSmall){
+        const text_rect = sideHeroPageTextref.current.getBoundingClientRect()
+        setBaselineY(text_rect.top)
+      }else{
+        const text_rect = heroPageTextRef.current.getBoundingClientRect()
+        setBaselineY(text_rect.bottom)
+      }
+    };
+
+    updatebaseline();
+    window.addEventListener("resize", updatebaseline);
+
+    return () => window.removeEventListener("resize", updatebaseline);
+    
+  }, []);
+
   return (
     <>
 
@@ -89,7 +79,7 @@ function HeroPage() {
       <div className='relative z-30 justify-center place-items-center '>
         
         <div className='relative pointer-events-none w-full h-[70vh] md:h-[70vh] lg:h-[80vh]'>
-          <Canvas camera={{ position: [5, 0, 0], fov: 60 }} className='canvas' style={{ width: '100%', height: '100%' }}>
+          <Canvas camera={{ position: [0, 0, 5], fov: 60 }} className='canvas' style={{ width: '100%', height: '100%' }}>
 
             <Suspense fallback={null}> {/*suspense is used to delay the rendering of the scene until all assets are loaded*/}
 
@@ -102,36 +92,11 @@ function HeroPage() {
                 position={[5, 5, 3]}
                 intensity={2}
               />
-        
+              <Scene baselineY={baselineY} />
       
         
             
-             {/* Animated cans */}
-              <AnimatedCan
-                flavour="strawberry"
-                position={[2, drop, 0]}
-                scale={0.7}
-                dropDelay={0.2}
-                rotation = {[0,0, isSmall ? 0.1 : 0]}
-              />
-
-              <AnimatedCan
-                flavour="watermelon"
-                position={[2, drop, 1]}
-                scale={0.7}
-                dropDelay={0.5}
-                rotation = {[0,0, isSmall ? 0.1 : 0]}
-              />
-
-              
-
-              <AnimatedCan
-                flavour="cherry"
-                position={[2 ,drop, -1]} //to-do get height of screen work out percentage
-                scale={0.7}
-                dropDelay={0.8}
-                rotation = {[0,0, isSmall ? 0.1 : 0]}
-              />
+             
             
             </Suspense>
  
@@ -145,8 +110,8 @@ function HeroPage() {
       </div>
 
       <div className='absolute top-0 left-0 w-full  justify-center items-center z-2 pointer-events-none'>
-        <h1 className='lg:text-[26vh] text-[10vh]/24 md:text-6xl tracking-wide text-center font-bold text-black mt-24 md:mt-12'>Live Life on <span className='flex flex-col sm:flex-row'>The</span></h1>
-        <h1 className='lg:text-[26vh] text-[10vh]  tracking-wide text-center font-bold text-black ml-auto mt-24 md:mt-12'><span></span> Side</h1>
+        <h1  className='lg:text-[26vh] text-[10vh]/24 md:text-6xl tracking-wide text-center font-bold text-black mt-24 md:mt-12'>Live Life on <span ref={heroPageTextRef} className='flex flex-col sm:flex-row mb-24'>The</span></h1>
+        <h1 ref={sideHeroPageTextref}  className='lg:text-[26vh] text-[10vh]  tracking-wide text-center font-bold text-black ml-auto'><span></span> Side</h1>
       </div>
       
         
