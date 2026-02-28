@@ -34,7 +34,7 @@ export const AnimatedCan = forwardRef<
                     delay: dropDelay,
                 }
             );
-        }, [position, dropDelay]);
+        }, []);
 
 
         return (

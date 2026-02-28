@@ -110,8 +110,8 @@ function HeroPage() {
       </div>
 
       <div className='absolute top-0 left-0 w-full  justify-center items-center z-2 pointer-events-none'>
-        <h1  className='lg:text-[26vh] text-[10vh]/24 md:text-6xl tracking-wide text-center font-bold text-black mt-24 md:mt-12'>Live Life on <span ref={heroPageTextRef} className='flex flex-col sm:flex-row mb-24'>The</span></h1>
-        <h1 ref={sideHeroPageTextref}  className='lg:text-[26vh] text-[10vh]  tracking-wide text-center font-bold text-black ml-auto'><span></span> Side</h1>
+        <h1  className='lg:text-[26vh] text-[10vh]/24 md:text-6xl tracking-wide text-center font-bold text-black mt-24 md:mt-12'>Live Life on <span ref={heroPageTextRef} className='flex flex-col sm:flex-row mb-24'>The <span ref={sideHeroPageTextref} className='flex flex-row ml-auto'>Side</span></span></h1>
+        {/* <h1   className='lg:text-[26vh] text-[10vh]  tracking-wide text-center font-bold text-black inline-flex'>Side</h1> */}
       </div>
       
         
