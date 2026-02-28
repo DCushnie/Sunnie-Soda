@@ -1,27 +1,27 @@
 
-# 🛒 Sunnie Soda E-Commerce Web App
+# Sunnie Soda E-Commerce Web App
 
 > An e-commerce platform for Sunnie Soda, making healthy drinks the new trend! Shop, manage, and explore with style.
 
 
-## 🚀 Overview
+## Overview
 
-Welcome to the Sunnie Soda E-Commerce Web App! This project is a modern, full-stack shopping experience featuring a React + Vite frontend and a robust Node.js/Express backend. Whether you’re here to browse, buy, or just poke around, you’ll find a blend of performance, security, and a sprinkle of fun.
+Welcome to the Sunnie Soda E-Commerce Web App! This project is a modern, full-stack shopping experience featuring a React + Vite frontend and a robust Node.js/Express backend. Whether you’re here to browse, buy, or just poke around, you’ll find a blend of performance, security, and a sprinkle of fun. Check out the live website:
 
 Live Website: [https://sunniesoda.co.uk/](https://sunniesoda.co.uk/)
 
 
-## 🧩 Features
+## Features
 
-- 🛍️ **Product Catalog**: Browse a variety of Sunnie Soda products with detailed pages.
-- 🛒 **Cart System**: Add, remove, and manage your cart items with ease.
-- 🔐 **Authentication**: Secure sign-up, login, and protected routes for users and admins.
-- 🧑‍💼 **Admin Controls**: Manage products and users (admin only!).
-- 🎨 **Modern UI**: Built with React, Tailwind CSS, and 3D/animated touches using Three.js and GSAP.
-- ⚡ **Fast & Responsive**: Powered by Vite for instant reloads and smooth navigation.
+-  **Product Catalog**: Browse a variety of Sunnie Soda products with detailed pages.
+-  **Cart System**: Add, remove, and manage your cart items with ease.
+-  **Authentication**: Secure sign-up, login, and protected routes for users and admins.
+-  **Admin Controls**: Manage products and users (admin only!).
+-  **Modern UI**: Built with React, Tailwind CSS, and 3D/animated touches using Three.js and GSAP.
+-  **Fast & Responsive**: Powered by Vite for instant reloads and smooth navigation.
 
 
-## 🏗️ Tech Stack
+##  Tech Stack
 
 ### Frontend
 - React 19
@@ -40,22 +40,22 @@ Live Website: [https://sunniesoda.co.uk/](https://sunniesoda.co.uk/)
 
 ---
 
-## 📁 Project Structure
+## My Project Structure
 
 ```
 ecommerce-web/
 ├── Backend/
-│   ├── Models/           # Sequelize models (User, Product, CartItems)
-│   ├── controllers/      # Route controllers (auth, cart, user)
+│   ├── Models/           # Sequelize models 
+│   ├── controllers/      # Route controllers 
 │   ├── middleware/       # Auth/admin middleware
-│   ├── routes/           # Express routes (auth, admin, protected)
+│   ├── routes/           # Express routes 
 │   ├── server.js         # Express app entry point
 │   └── package.json      # Backend dependencies
 │
 ├── Frontend/
 │   ├── src/
-│   │   ├── components/   # React components (Navbar, ProductCard, etc.)
-│   │   ├── pages/        # Page components (Login, Cart, Product, etc.)
+│   │   ├── components/   # React components 
+│   │   ├── pages/        # Page components
 │   │   ├── CSS/          # Stylesheets
 │   │   └── assets/       # Images, 3D assets
 │   ├── public/           # Static files
