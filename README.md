@@ -3,7 +3,6 @@
 
 > An e-commerce platform for Sunnie Soda, making healthy drinks the new trend! Shop, manage, and explore with style.
 
----
 
 ## 🚀 Overview
 
@@ -11,7 +10,6 @@ Welcome to the Sunnie Soda E-Commerce Web App! This project is a modern, full-st
 
 Live Website: [https://sunniesoda.co.uk/](https://sunniesoda.co.uk/)
 
----
 
 ## 🧩 Features
 
@@ -22,7 +20,6 @@ Live Website: [https://sunniesoda.co.uk/](https://sunniesoda.co.uk/)
 - 🎨 **Modern UI**: Built with React, Tailwind CSS, and 3D/animated touches using Three.js and GSAP.
 - ⚡ **Fast & Responsive**: Powered by Vite for instant reloads and smooth navigation.
 
----
 
 ## 🏗️ Tech Stack
 
