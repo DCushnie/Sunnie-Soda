@@ -47,20 +47,40 @@ function HeroPage() {
   const dimensions = useWindowDimensions();
   const isSmall = dimensions.width < 640; 
   const heroPageTextRef = useRef(null);
-  const sideHeroPageTextref = useRef(null);
+  const EntireHeroPageTextref = useRef(null);
+  const canvasInfo = useRef(null);
+  const [sideTextPos, setsideTextPos] = useState(0);
+  const [maintextPos, setmaintextPos] = useState(0);
   const [baselineY, setBaselineY] = useState(0);
+  const [animateCan, setAnimateCan] = useState(false);
+  const triggerRef = useRef(null);
+
+ 
+  //const canvasInfo = 
 
   useEffect(() => {
     if(!heroPageTextRef.current) return;
 
+     if (isSmall){
+        const canvasInfoHeight = canvasInfo.current.getBoundingClientRect();
+        const heroPageInfo = EntireHeroPageTextref.current.getBoundingClientRect();
+        console.log(canvasInfoHeight);
+
+        setsideTextPos(canvasInfoHeight.bottom)
+        setmaintextPos(heroPageInfo.height)
+    }
+
     const updatebaseline = () =>{
-      if (isSmall){
-        const text_rect = sideHeroPageTextref.current.getBoundingClientRect()
-        setBaselineY(text_rect.top)
-      }else{
-        const text_rect = heroPageTextRef.current.getBoundingClientRect()
-        setBaselineY(text_rect.bottom)
-      }
+      // if (isSmall){
+      //   const text_rect = sideHeroPageTextref.current.getBoundingClientRect()
+      //   setBaselineY(text_rect.bottom)
+      // }else{
+      //   const text_rect = heroPageTextRef.current.getBoundingClientRect()
+      //   setBaselineY(text_rect.bottom)
+
+      const text_rect = heroPageTextRef.current.getBoundingClientRect();
+      setBaselineY(text_rect.bottom);
+      
     };
 
     updatebaseline();
@@ -70,16 +90,25 @@ function HeroPage() {
     
   }, []);
 
+  // useEffect(() => {
+  //   const observer = new window.IntersectionObserver(
+  //     ([entry]) => setAnimateCan(entry.isIntersecting),
+  //     { threshold: 1 }
+  //   );
+  //   if (triggerRef.current) observer.observe(triggerRef.current);
+  //   return () => observer.disconnect();
+  // }, []);
+
   return (
     <>
 
-    <section className='relative top-0 left-0 w-full h-screen'>
+    <section ref={triggerRef} className='relative top-0 left-0 w-full h-screen'>
       <AnimatedBackground />
       <Navbar />
       <div className='relative z-30 justify-center place-items-center '>
         
-        <div className='relative pointer-events-none w-full h-[70vh] md:h-[70vh] lg:h-[80vh]'>
-          <Canvas camera={{ position: [0, 0, 5], fov: 60 }} className='canvas' style={{ width: '100%', height: '100%' }}>
+        <div ref={canvasInfo} className='relative pointer-events-none w-full h-[60vh] md:h-[70vh] lg:h-[80vh] z-20'>
+          <Canvas  camera={{ position: [0, 0, 5], fov: 60 }} className='canvas' style={{ width: '100%', height: '100%' }}>
 
             <Suspense fallback={null}> {/*suspense is used to delay the rendering of the scene until all assets are loaded*/}
 
@@ -92,7 +121,7 @@ function HeroPage() {
                 position={[5, 5, 3]}
                 intensity={2}
               />
-              <Scene baselineY={baselineY} />
+              <Scene baselineY={baselineY} animateCan={animateCan} />
       
         
             
@@ -104,24 +133,41 @@ function HeroPage() {
         </div>
 
        
-         
+          <div className='absolute top-0 left-0 w-full justify-center items-center z-2'>
+          <h1 ref={EntireHeroPageTextref} className=' xl:text-[26vh]/48 text-[10vh]/24 md:text-1xl tracking-wide text-center font-bold text-black mt-12 lg:mt-24 md:mt-12'>
+            Live Life on
+            <span ref={heroPageTextRef} className='flex flex-col sm:flex-row mt-10 md:mt-18 sm:pb-28 lg:pb-0 xl:ml-24'>
+              The
+              <span className={`absolute left-1/2 -translate-x-1/2 sm:left-1/2 xl:static xl:flex xl:flex-row xl:ml-auto xl:mr-[-12rem]`} style={{top: sideTextPos}}>
+                Side
+                {/* Render button under 'Side' for small screens */}
+                {isSmall && (
+                  <button className='flex flex-col mt-12 w-fit bg-white text-2xl text-brown font-semibold py-2 px-4 rounded hover:bg-gray-200 transition relative z-10'>Shop Now</button>
+                )}
+              </span>
+            </span>
+          </h1>
+          {/* Render button under cans for large screens */}
+          {!isSmall && (
+            <div className='flex justify-center w-full mt-8'>
+              <button className='mt-32 bg-yellow-300 w-xs text-brown font-semibold py-2 px-4 rounded-full hover:bg-yellow-200 transition-colors z-10  cursor-pointer'>Shop Now</button>
+            </div>
+          )}
+        </div>
+      
 
        
       </div>
 
-      <div className='absolute top-0 left-0 w-full  justify-center items-center z-2 pointer-events-none'>
-        <h1  className='lg:text-[26vh] text-[10vh]/24 md:text-6xl tracking-wide text-center font-bold text-black mt-24 md:mt-12'>Live Life on <span ref={heroPageTextRef} className='flex flex-col sm:flex-row mb-24'>The <span ref={sideHeroPageTextref} className='flex flex-row ml-auto'>Side</span></span></h1>
-        {/* <h1   className='lg:text-[26vh] text-[10vh]  tracking-wide text-center font-bold text-black inline-flex'>Side</h1> */}
-      </div>
+
       
         
     </section>
     
     
-    <section className='relative z-40 mt-96 p-8 text-center'>
+    <section  className='relative h-[80vh] text-center bg-blue-100'>
       
-      <p className='text-lg text-black mb-8'>Discover our range of delicious soda flavors, crafted to quench your thirst and delight your taste buds.</p>
-      <button className='bg-white text-brown font-semibold py-2 px-4 rounded hover:bg-gray-200 transition ani'>Shop Now</button>
+      
     </section>
     
     </>

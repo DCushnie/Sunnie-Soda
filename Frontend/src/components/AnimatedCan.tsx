@@ -5,6 +5,7 @@ import * as THREE from "three";
 import { SodaCan } from "../components/sodaCan.js";
 
 
+
 export const AnimatedCan = forwardRef<
     THREE.Group,
     {
@@ -13,17 +14,23 @@ export const AnimatedCan = forwardRef<
         position: [number, number, number];
         rotation?: [number, number, number];
         dropDelay?: number; // delay before drop animation starts
+        animate?: boolean;
     }
-    >(({flavour, position, scale = 1, rotation = [0,0,0], dropDelay = 0}, externalRef) => {
+    >(({flavour, position, scale = 1, rotation = [0,0,0], dropDelay = 0, animate = true}, externalRef) => {
         const internalRef = useRef<THREE.Group>(null);
-        const canref =
-            (externalRef as React.RefObject<THREE.Group | null>) || internalRef;
+        const canref = (externalRef as React.RefObject<THREE.Group | null>) || internalRef;
+        const dropPlayed = useRef(false);
 
         useEffect(() => {
             if (!canref.current) return;
-
-            gsap.fromTo(
-                canref.current.position,
+            // if (!animate){
+            //     console.log(animate);
+            //     canref.current.position.y = position[1] + 7;
+            //     return;
+            // }
+            if(!dropPlayed.current){
+                gsap.fromTo(
+                    canref.current.position,
                 {
                     y: position[1] + 7, //from here
                 },
@@ -32,16 +39,19 @@ export const AnimatedCan = forwardRef<
                     duration: 2,
                     ease: "power3.out",
                     delay: dropDelay,
+                    onComplete: () => {dropPlayed.current = true;}
                 }
             );
-        }, []);
-
+            }
+                
+            
+        }, [position, dropDelay]);
 
         return (
             <SodaCan
                 ref={canref}
                 flavour={flavour}
-                position={[position[0], position[1], position[2]]} //forces the can to start above the ground for drop animation to prevent the can being rendered below ground
+                position={[position[0], position[1], position[2]]}
                 rotation={rotation}
                 scale={scale}
             />
