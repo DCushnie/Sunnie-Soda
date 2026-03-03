@@ -9,7 +9,7 @@ function AnimatedBackground() {
                       animate-[floatSlow_22s_ease-in-out_infinite]" />
     
       <div className="absolute top-[15%] right-[10%] w-[500px] h-[500px] 
-                      bg-yellow-400 opacity-40 rounded-full 
+                      bg-yellow-400 dark:bg-yellow-200 opacity-40 rounded-full 
                       blur-3xl mix-blend-multiply 
                       animate-[floatFast_22s_ease-in-out_infinite]" />
 
